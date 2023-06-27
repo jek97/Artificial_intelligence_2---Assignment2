@@ -258,7 +258,75 @@ double VisitSolver::dist_euc(string wp_from, string wp_to){
 }
 
 void VisitSolver::pathfinder(string reg_from, string reg_to){
+  int i = 100000;
+  int i_s;
+  double f, g_s, h_s;
+  string wp_init, wp_curr, wp_goal;
+  vector<double> wp_curr_data, wp_succ_data;
+  vector<string> successors; // contain all the successor waypoint (by name) of the current waypoint
+  map<string, vector<double>> open, close; // both with the structure [wpn, {g(wp), h(wp), f(wp)=g(wp)+h(wp)}]
+  map<string, string> parent; // parent of a given node
 
+  // translate the regions in waypoints
+  wp_init = region.at(reg_from); // initial waypoint
+  wp_goal = region.at(reg_to); // goal waypoint
+
+  // use the A star algorithm to find a solution
+  f = dist_euc(wp_init, wp_goal);
+  open[wp_init]={0, f, f}; // put node_start (wp_init) in open with its heuristic (f)
+  while(!open.empty()){ // while open is not empty
+    for(auto i_wp = open.begin(); i_wp != open.end(); ++i_wp){ // from the open list take the node node_curr (wp_curr) with the lowest heuristic (f)
+      if((i_wp->second[2]) < i){
+        i = i_wp->second[2];
+        wp_curr = i_wp->first;
+      }
+    }
+    if(wp_curr == wp_goal){ // if node_current (wp_curr) = node_goal (wp_goal) we have finished
+      cout << "path found"<< endl;
+      // do something (like plotting the path) and exit from the function
+    }
+    else{ // otherwise generate all the successors of the current node
+      successors = connection[wp_curr]; //                                                                            maybe you need to remove the current to obtain just the successors
+      for(i_s = 0; i_s <= successors.size(); ++i_s){ // for each successor
+        wp_curr_data = open[wp_curr];
+        g_s = wp_curr_data[0] + dist_euc(wp_curr, successors[i_s]); // set the successor_current_cost to g(wp_curr)+cost(wp_curr-wp_successor)
+        try{ // if the successor is already in the open list
+          wp_succ_data = open.at(successors[i_s]);
+          if(wp_succ_data[0] <= g_s){
+            goto done;
+          }
+        }
+        catch(const std::out_of_range& oor){ // if the successor is not already in the open list
+          try{ // if the successor node is already in the close list and it's not in the open list
+            wp_succ_data = close.at(successors[i_s]);
+            if(wp_succ_data[0] <= g_s){
+              goto done;
+            }
+            else{ 
+              close.erase(successors[i_s]); // remove the waypoint from the close list
+              open[successors[i_s]] = wp_succ_data; // put it in the open one
+            }
+          }
+          catch(const std::out_of_range& oor){ // if the successor is not already neither in the open list nor in the close list
+            h_s = dist_euc(successors[i_s], wp_goal); // heuristic of the successor to the goal
+            wp_succ_data = {0, h_s, h_s};
+            open[successors[i_s]] = wp_succ_data; // add the successor in the open list
+          }
+        }
+        wp_succ_data = open.at(successors[i_s]); // set the g(node successor)= g_s                                  check if it is in open or not
+        wp_succ_data[0] = g_s;
+        wp_succ_data[2] = wp_succ_data[0] + wp_succ_data[1];
+        open[successors[i_s]] = wp_succ_data; // add the node successor to the open list
+        parent[successors[i_s]] = wp_curr; // set the parent of the node successor to node current
+      }
+      done:
+      close[wp_curr] = wp_curr_data; // add current node to the close list
+      open.erase(wp_curr);// remove the current node from the open list
+    }
+  }
+  if (wp_curr != wp_goal){
+    cout << "error, open is empty, not avaiable path" << endl;
+  }
 }
 
 void VisitSolver::parseLandmark(string landmark_file){
