@@ -41,9 +41,15 @@ public:
     virtual  list<string> getDependencies();
     map<string, vector<double>> waypoint;
     map<string, vector<double>> landmark;
+    map<string, string> region; // added by us
+    map<string, vector<string>> connection; // added by us
    
-    void parseWaypoint(string waypoint_file);
+    void parseWaypointConnection(string waypoint_file); //modified by us
     void parseLandmark(string landmark_file);
+    void parseRegions(string region_file); //added by us
+
+    double dist_euc(string wp_from, string wp_to); // added by us
+    void pathfinder(string reg_from, string reg_to); // added by us
      
     map<string, vector<string>> region_mapping;
     vector <string> source, target; 

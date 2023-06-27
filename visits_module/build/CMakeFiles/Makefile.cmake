@@ -10,7 +10,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.16.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeSystem.cmake"
-  "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/CMakeLists.txt"
+  "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/CMakeLists.txt"
   "/usr/share/cmake-3.16/Modules/CMakeCCompiler.cmake.in"
   "/usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c"
   "/usr/share/cmake-3.16/Modules/CMakeCInformation.cmake"

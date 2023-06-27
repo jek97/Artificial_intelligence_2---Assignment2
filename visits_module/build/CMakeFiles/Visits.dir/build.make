@@ -46,10 +46,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src
+CMAKE_SOURCE_DIR = /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build
+CMAKE_BINARY_DIR = /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Visits.dir/depend.make
@@ -61,30 +61,30 @@ include CMakeFiles/Visits.dir/progress.make
 include CMakeFiles/Visits.dir/flags.make
 
 CMakeFiles/Visits.dir/VisitSolver.cpp.o: CMakeFiles/Visits.dir/flags.make
-CMakeFiles/Visits.dir/VisitSolver.cpp.o: /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/VisitSolver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Visits.dir/VisitSolver.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Visits.dir/VisitSolver.cpp.o -c /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/VisitSolver.cpp
+CMakeFiles/Visits.dir/VisitSolver.cpp.o: /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/VisitSolver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Visits.dir/VisitSolver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Visits.dir/VisitSolver.cpp.o -c /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/VisitSolver.cpp
 
 CMakeFiles/Visits.dir/VisitSolver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Visits.dir/VisitSolver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/VisitSolver.cpp > CMakeFiles/Visits.dir/VisitSolver.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/VisitSolver.cpp > CMakeFiles/Visits.dir/VisitSolver.cpp.i
 
 CMakeFiles/Visits.dir/VisitSolver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Visits.dir/VisitSolver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/VisitSolver.cpp -o CMakeFiles/Visits.dir/VisitSolver.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/VisitSolver.cpp -o CMakeFiles/Visits.dir/VisitSolver.cpp.s
 
 CMakeFiles/Visits.dir/ExternalSolver.cpp.o: CMakeFiles/Visits.dir/flags.make
-CMakeFiles/Visits.dir/ExternalSolver.cpp.o: /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/ExternalSolver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Visits.dir/ExternalSolver.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Visits.dir/ExternalSolver.cpp.o -c /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/ExternalSolver.cpp
+CMakeFiles/Visits.dir/ExternalSolver.cpp.o: /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/ExternalSolver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Visits.dir/ExternalSolver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Visits.dir/ExternalSolver.cpp.o -c /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/ExternalSolver.cpp
 
 CMakeFiles/Visits.dir/ExternalSolver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Visits.dir/ExternalSolver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/ExternalSolver.cpp > CMakeFiles/Visits.dir/ExternalSolver.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/ExternalSolver.cpp > CMakeFiles/Visits.dir/ExternalSolver.cpp.i
 
 CMakeFiles/Visits.dir/ExternalSolver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Visits.dir/ExternalSolver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/ExternalSolver.cpp -o CMakeFiles/Visits.dir/ExternalSolver.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/ExternalSolver.cpp -o CMakeFiles/Visits.dir/ExternalSolver.cpp.s
 
 # Object files for target Visits
 Visits_OBJECTS = \
@@ -98,7 +98,7 @@ libVisits.so: CMakeFiles/Visits.dir/VisitSolver.cpp.o
 libVisits.so: CMakeFiles/Visits.dir/ExternalSolver.cpp.o
 libVisits.so: CMakeFiles/Visits.dir/build.make
 libVisits.so: CMakeFiles/Visits.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libVisits.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libVisits.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Visits.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -111,6 +111,6 @@ CMakeFiles/Visits.dir/clean:
 .PHONY : CMakeFiles/Visits.dir/clean
 
 CMakeFiles/Visits.dir/depend:
-	cd /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/Visits.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/Visits.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Visits.dir/depend
 

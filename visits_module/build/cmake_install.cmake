@@ -1,4 +1,4 @@
-# Install script for directory: /home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src
+# Install script for directory: /home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

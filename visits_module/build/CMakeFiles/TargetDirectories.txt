@@ -1,4 +1,4 @@
-/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/rebuild_cache.dir
-/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/edit_cache.dir
-/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/VisitMain.dir
-/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/Visits.dir
+/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/rebuild_cache.dir
+/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/edit_cache.dir
+/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/VisitMain.dir
+/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/Visits.dir

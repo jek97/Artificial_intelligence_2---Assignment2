@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/ExternalSolver.cpp" "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/VisitMain.dir/ExternalSolver.cpp.o"
-  "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/VisitSolver.cpp" "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/VisitMain.dir/VisitSolver.cpp.o"
-  "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/src/main.cpp" "/home/jek97/Desktop/university/artificial_intelligence_2/tutorial/visits_module/build/CMakeFiles/VisitMain.dir/main.cpp.o"
+  "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/ExternalSolver.cpp" "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/VisitMain.dir/ExternalSolver.cpp.o"
+  "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/VisitSolver.cpp" "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/VisitMain.dir/VisitSolver.cpp.o"
+  "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/main.cpp" "/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/build/CMakeFiles/VisitMain.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
