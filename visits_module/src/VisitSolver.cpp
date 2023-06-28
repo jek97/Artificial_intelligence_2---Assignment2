@@ -64,10 +64,14 @@ void VisitSolver::loadSolver(string *parameters, int n){
   dependencies = list<string>(y,y+2);
 
   string waypoint_file = "visits_domain/waypoint.txt";   // change this to the correct path
-  parseWaypoint(waypoint_file);
+  parseWaypointConnection(waypoint_file);
 
   string landmark_file = "visits_domain/landmark.txt";  // change this to the correct path
   parseLandmark(landmark_file);
+
+  string region_file = "visits_domain/region.txt";
+  parseRegions(region_file);
+
   //startEKF();
 }
 
@@ -104,9 +108,9 @@ map<string,double> VisitSolver::callExternalSolver(map<string,double> initialSta
         trigger[arg] = value>0?1:0;
         if (value>0){
 
-          string from = tmp.substr(0,2);   // from and to are regions
+          string from = tmp.substr(0,2);
           string to = tmp.substr(3,2);
-          // distance_euc(from, to);
+          pathfinder(from, to);
 
         }
       }
@@ -146,7 +150,6 @@ list<string> VisitSolver::getDependencies(){
 
 
 void VisitSolver::parseParameters(string parameters){
-  cout << "d" << endl;
 
   int curr, next;
   string line;
@@ -167,14 +170,11 @@ void VisitSolver::parseParameters(string parameters){
   }
 }
 
-//double VisitSolver::distance_euc(string from, string to){
-
-//}
 
 double VisitSolver::calculateExtern(double external, double total_cost){
-  cout << "e" << endl;
+
   //float random1 = static_cast <float> (rand())/static_cast <float>(RAND_MAX);
-  double cost = 5;//random1;
+  //double cost = 5;//random1;
   return cost;
 }
 
@@ -226,6 +226,7 @@ void VisitSolver::parseWaypointConnection(string waypoint_file){
   }
 }
 
+
 void VisitSolver::parseRegions(string region_file){
   // let's enstablish a structure of the regions file as follow: r0=wp0.
   int curr, next;
@@ -248,6 +249,7 @@ void VisitSolver::parseRegions(string region_file){
 
 
 double VisitSolver::dist_euc(string wp_from, string wp_to){
+
   double dist;
   vector<double> from;
   vector<double> to;
@@ -258,10 +260,11 @@ double VisitSolver::dist_euc(string wp_from, string wp_to){
 }
 
 void VisitSolver::pathfinder(string reg_from, string reg_to){
+
   int i = 100000;
   int i_s;
   double f, g_s, h_s;
-  string wp_init, wp_curr, wp_goal;
+  string wp_init, wp_curr, wp_goal, node;
   vector<double> wp_curr_data, wp_succ_data;
   vector<string> successors; // contain all the successor waypoint (by name) of the current waypoint
   map<string, vector<double>> open, close; // both with the structure [wpn, {g(wp), h(wp), f(wp)=g(wp)+h(wp)}]
@@ -276,17 +279,27 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
   open[wp_init]={0, f, f}; // put node_start (wp_init) in open with its heuristic (f)
   while(!open.empty()){ // while open is not empty
     for(auto i_wp = open.begin(); i_wp != open.end(); ++i_wp){ // from the open list take the node node_curr (wp_curr) with the lowest heuristic (f)
-      if((i_wp->second[2]) < i){
+      if((i_wp->second[2]) <= i){ // even the < would be sufficient and if two valeus are equals would keep the oldest, with the <= i will keep the newest
         i = i_wp->second[2];
         wp_curr = i_wp->first;
       }
     }
     if(wp_curr == wp_goal){ // if node_current (wp_curr) = node_goal (wp_goal) we have finished
-      cout << "path found"<< endl;
-      // do something (like plotting the path) and exit from the function
+      cout << "path found" << endl;
+      // recovering the path and its cost
+      path.clear(); // clear all the vector from previous iterations
+      cost = 0; // init the cost to 0 from previous iterations
+      path.insert(path.begin(), wp_curr); // first insert the goal
+      node = wp_curr; // initialize the node to the goal one
+      while(node != wp_init){
+        path.insert(path.begin(), parent[node]); // insert the parent of the actual node at the beginning of the path vector
+        cost = cost + dist_euc(node, parent[node]); // add the step cost
+        node = parent[node]; // set the new node as the parent of the actual one for the next iteration
+      }
+      // call a function to write the path on a txt file and maybe even print it on the screen                                                                                                //TO DO
     }
     else{ // otherwise generate all the successors of the current node
-      successors = connection[wp_curr]; //                                                                            maybe you need to remove the current to obtain just the successors
+      successors = connection[wp_curr]; // generate the successors nodes, that are all the one connected without the one where we come from                                                                                         // not sure, to check 
       for(i_s = 0; i_s <= successors.size(); ++i_s){ // for each successor
         wp_curr_data = open[wp_curr];
         g_s = wp_curr_data[0] + dist_euc(wp_curr, successors[i_s]); // set the successor_current_cost to g(wp_curr)+cost(wp_curr-wp_successor)
@@ -313,13 +326,14 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
             open[successors[i_s]] = wp_succ_data; // add the successor in the open list
           }
         }
-        wp_succ_data = open.at(successors[i_s]); // set the g(node successor)= g_s                                  check if it is in open or not
-        wp_succ_data[0] = g_s;
-        wp_succ_data[2] = wp_succ_data[0] + wp_succ_data[1];
+        wp_succ_data = open.at(successors[i_s]);                                 
+        wp_succ_data[0] = g_s; // set the g(node successor)= g_s  
+        wp_succ_data[2] = wp_succ_data[0] + wp_succ_data[1]; // evaluate f
         open[successors[i_s]] = wp_succ_data; // add the node successor to the open list
+        parent.erase(successors[i_s]); // clear the parents of the successor
         parent[successors[i_s]] = wp_curr; // set the parent of the node successor to node current
+        done:
       }
-      done:
       close[wp_curr] = wp_curr_data; // add current node to the close list
       open.erase(wp_curr);// remove the current node from the open list
     }

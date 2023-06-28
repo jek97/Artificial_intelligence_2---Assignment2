@@ -52,8 +52,9 @@ public:
     void pathfinder(string reg_from, string reg_to); // added by us
      
     map<string, vector<string>> region_mapping;
-    vector <string> source, target; 
+    vector <string> source, target, path; // path added by us
     string starting_position;
+    double cost; // added by us
      
    
    
