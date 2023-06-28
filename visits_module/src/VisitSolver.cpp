@@ -53,7 +53,7 @@ VisitSolver::~VisitSolver(){
 }
 
 void VisitSolver::loadSolver(string *parameters, int n){
-  cout << "a" << endl;
+  
   starting_position = "r0";
   string Paramers = parameters[0];
 
@@ -76,9 +76,7 @@ void VisitSolver::loadSolver(string *parameters, int n){
 }
 
 map<string,double> VisitSolver::callExternalSolver(map<string,double> initialState,bool isHeuristic){
-  cout << "b" << endl;
-  // it takes initial cost and heuristic, in initial state seams that are implemented the initial state of the robot and the final one
-  //
+  
   map<string, double> toReturn;
   map<string, double>::iterator iSIt = initialState.begin();
   map<string, double>::iterator isEnd = initialState.end();
@@ -259,6 +257,17 @@ double VisitSolver::dist_euc(string wp_from, string wp_to){
   return dist;
 }
 
+
+void VisitSolver::displayResult(string path_file){
+  int i;
+  ofstream output;
+  output.open(path_file, std::ios_base::app);
+  for(i = 0; i <= sizeof(path); ++i){
+    output << i << ". " << path[i] << endl; // write on the file
+    cout << i << ". " << path[i] << endl; // write on the terminal
+  }
+}
+
 void VisitSolver::pathfinder(string reg_from, string reg_to){
 
   int i = 100000;
@@ -296,7 +305,7 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
         cost = cost + dist_euc(node, parent[node]); // add the step cost
         node = parent[node]; // set the new node as the parent of the actual one for the next iteration
       }
-      // call a function to write the path on a txt file and maybe even print it on the screen                                                                                                //TO DO
+      displayResult("visits_domain/path.txt"); // write the result both on the terminal and on the text file
     }
     else{ // otherwise generate all the successors of the current node
       successors = connection[wp_curr]; // generate the successors nodes, that are all the one connected without the one where we come from                                                                                         // not sure, to check 

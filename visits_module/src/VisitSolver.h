@@ -47,6 +47,7 @@ public:
     void parseWaypointConnection(string waypoint_file); //modified by us
     void parseLandmark(string landmark_file);
     void parseRegions(string region_file); //added by us
+    void displayResult(string path_file); // added by us
 
     double dist_euc(string wp_from, string wp_to); // added by us
     void pathfinder(string reg_from, string reg_to); // added by us
