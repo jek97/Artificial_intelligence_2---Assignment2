@@ -181,16 +181,14 @@ double VisitSolver::calculateExtern(double external, double total_cost){
 
 void VisitSolver::parseWaypointConnection(string waypoint_file){
   // let's enstablish a structure of the wayppoints file as follow: wp0[0,0,0,wp1,wp2,wp3,wp4,wp5,wp6] where then you have the connected waypoint to that one, fundamental all the waypoints must be connected to the same number of waypoints.
-  cout<<"waypoint"<<endl;
-  int curr, next, end, flag;
-  flag = 0;
+  int curr, next, flag;
   string line, wp;
   double pose1, pose2, pose3;
   vector<string> wp_connected;
   ifstream parametersFile(waypoint_file.c_str());
   if (parametersFile.is_open()){
     while (getline(parametersFile,line)){
-      cout<<"waypoint_it"<<endl;
+      flag = 0;
       wp_connected.clear(); //clear the vector at initialization, look here *** to understan
 
       curr=line.find("[");
@@ -198,7 +196,7 @@ void VisitSolver::parseWaypointConnection(string waypoint_file){
 
       curr=curr+1;
       next=line.find(",",curr);
-
+      
       pose1 = (double)atof(line.substr(curr,next-curr).c_str());
       curr=next+1; 
       next=line.find(",",curr);
@@ -208,13 +206,12 @@ void VisitSolver::parseWaypointConnection(string waypoint_file){
       next=line.find(",",curr);
 
       pose3 = (double)atof(line.substr(curr,next-curr).c_str());
-      cout<<"waypoint_it2"<<endl;
+
       while(flag == 0){
-        cout<<"waypoint_it3"<<endl;
+
         curr=next+1; 
-        next=line.find(",",curr);
-        end=line.find("]",curr);
-        if(end<next){
+        next=line.find_first_of(",]",curr);
+        if(next == -1){
           flag = 1;
         }
         else{
@@ -227,19 +224,33 @@ void VisitSolver::parseWaypointConnection(string waypoint_file){
       connection[waypoint_name] = wp_connected;
     }
   }
+  /*cout<<"waypoint"<<endl;
+  for(auto i_wp = waypoint.begin(); i_wp != waypoint.end(); ++i_wp){
+    cout<<"wp "<<i_wp->first<<endl;
+    cout<<"coor ";
+    for(int i=0; i<=i_wp->second.size();++i){
+      cout<<i_wp->second[i];
+    }
+  }
+  cout<<"connections"<<endl;
+  for(auto i_wp = connection.begin(); i_wp != connection.end(); ++i_wp){
+    cout<<"wp "<<i_wp->first;
+    cout<<" con ";
+    for(auto i:i_wp->second){
+      cout<<i<<" ";
+    }
+    cout<<" "<<endl;
+  }*/
 }
 
 
 void VisitSolver::parseRegions(string region_file){
-  cout << "mammt" <<endl;
   // let's enstablish a structure of the regions file as follow: r0=wp0.
   int curr, next;
   string line;
   ifstream parametersFile(region_file);
-  cout << "mammt12" <<endl;
   if (parametersFile.is_open()){
     while (getline(parametersFile,line)){
-      cout << "mammt1" <<endl;
       curr=line.find("=");
       string region_name = line.substr(0,curr).c_str();
 
@@ -249,7 +260,6 @@ void VisitSolver::parseRegions(string region_file){
       string wp = line.substr(curr,next-curr).c_str();
 
       region[region_name] = wp;
-      cout << region.size() << endl;
     }
   }
 }
@@ -260,8 +270,11 @@ double VisitSolver::dist_euc(string wp_from, string wp_to){
   double dist;
   vector<double> from;
   vector<double> to;
+  cout<<"dist1"<<endl;
   from = waypoint.at(wp_from);
+  cout<<"dist2"<<endl;
   to = waypoint.at(wp_to);
+  cout<<"dist3"<<endl;
   dist = sqrt(pow((from[0] - to[0]), 2) + pow((from[1] - to[1]), 2));
   return dist;
 }
@@ -280,7 +293,6 @@ void VisitSolver::displayResult(string path_file){
 void VisitSolver::pathfinder(string reg_from, string reg_to){
   
   int i = 100000;
-  int i_s;
   double f, g_s, h_s;
   string wp_init, wp_curr, wp_goal, node;
   vector<double> wp_curr_data, wp_succ_data;
@@ -318,12 +330,17 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
     }
     else{ // otherwise generate all the successors of the current node
       successors = connection[wp_curr]; // generate the successors nodes, that are all the one connected without the one where we come from                                                                                         // not sure, to check 
-      for(i_s = 0; i_s <= successors.size(); ++i_s){ // for each successor
+      for(auto i_s : successors){ // for each successor
+        cout << "b1" << endl;
         wp_curr_data = open[wp_curr];
-        g_s = wp_curr_data[0] + dist_euc(wp_curr, successors[i_s]); // set the successor_current_cost to g(wp_curr)+cost(wp_curr-wp_successor)
+        
+        cout<<"curr"<<wp_curr <<endl;
+        cout<<"succ"<<i_s<<endl;
+        
+        g_s = wp_curr_data[0] + dist_euc(wp_curr, i_s); // set the successor_current_cost to g(wp_curr)+cost(wp_curr-wp_successor)
         cout << "b" << endl;
         try{ // if the successor is already in the open list
-          wp_succ_data = open.at(successors[i_s]);
+          wp_succ_data = open.at(i_s);
           if(wp_succ_data[0] <= g_s){
             goto done;
           }
@@ -331,28 +348,30 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
         catch(const std::out_of_range& oor){ // if the successor is not already in the open list
           cout << "c" <<endl;
           try{ // if the successor node is already in the close list and it's not in the open list
-            wp_succ_data = close.at(successors[i_s]);
+            wp_succ_data = close.at(i_s);
             if(wp_succ_data[0] <= g_s){
               goto done;
             }
             else{ 
-              close.erase(successors[i_s]); // remove the waypoint from the close list
-              open[successors[i_s]] = wp_succ_data; // put it in the open one
+              close.erase(i_s); // remove the waypoint from the close list
+              open[i_s] = wp_succ_data; // put it in the open one
             }
           }
           catch(const std::out_of_range& oor){ // if the successor is not already neither in the open list nor in the close list
             cout << "d" <<endl;
-            h_s = dist_euc(successors[i_s], wp_goal); // heuristic of the successor to the goal
+            h_s = dist_euc(i_s, wp_goal); // heuristic of the successor to the goal
             wp_succ_data = {0, h_s, h_s};
-            open[successors[i_s]] = wp_succ_data; // add the successor in the open list
+            open[i_s] = wp_succ_data; // add the successor in the open list
           }
         }
-        wp_succ_data = open.at(successors[i_s]);                                 
+        cout<<"e"<<endl;
+        wp_succ_data = open.at(i_s);     
+        cout<<"f"<<endl;                            
         wp_succ_data[0] = g_s; // set the g(node successor)= g_s  
         wp_succ_data[2] = wp_succ_data[0] + wp_succ_data[1]; // evaluate f
-        open[successors[i_s]] = wp_succ_data; // add the node successor to the open list
-        parent.erase(successors[i_s]); // clear the parents of the successor
-        parent[successors[i_s]] = wp_curr; // set the parent of the node successor to node current
+        open[i_s] = wp_succ_data; // add the node successor to the open list
+        parent.erase(i_s); // clear the parents of the successor
+        parent[i_s] = wp_curr; // set the parent of the node successor to node current
         done:
         continue;
       }
@@ -363,6 +382,7 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
   if (wp_curr != wp_goal){
     cout << "error, open is empty, not avaiable path" << endl;
   }
+  cout << "bob2" << endl;
 }
 
 void VisitSolver::parseLandmark(string landmark_file){
