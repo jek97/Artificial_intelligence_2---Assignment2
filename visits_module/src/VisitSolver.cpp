@@ -53,7 +53,7 @@ VisitSolver::~VisitSolver(){
 }
 
 void VisitSolver::loadSolver(string *parameters, int n){
-  
+  cout<<"a"<<endl;
   starting_position = "r0";
   string Paramers = parameters[0];
 
@@ -63,20 +63,20 @@ void VisitSolver::loadSolver(string *parameters, int n){
   affected = list<string>(x,x+1);
   dependencies = list<string>(y,y+2);
 
-  string waypoint_file = "visits_domain/waypoint.txt";   // change this to the correct path
+  string waypoint_file = "./waypoint.txt";   // change this to the correct path
   parseWaypointConnection(waypoint_file);
 
   string landmark_file = "visits_domain/landmark.txt";  // change this to the correct path
   parseLandmark(landmark_file);
 
-  string region_file = "visits_domain/region.txt";
+  string region_file = "./region.txt";
   parseRegions(region_file);
 
   //startEKF();
 }
 
 map<string,double> VisitSolver::callExternalSolver(map<string,double> initialState,bool isHeuristic){
-  
+  cout<<"b"<<endl;
   map<string, double> toReturn;
   map<string, double>::iterator iSIt = initialState.begin();
   map<string, double>::iterator isEnd = initialState.end();
@@ -148,12 +148,14 @@ list<string> VisitSolver::getDependencies(){
 
 
 void VisitSolver::parseParameters(string parameters){
-
+  cout<<"c"<<endl;
   int curr, next;
   string line;
   ifstream parametersFile(parameters.c_str());
+  cout<< "param" <<endl;
   if (parametersFile.is_open()){
     while (getline(parametersFile,line)){
+      cout<< "param_it" <<endl;
       curr=line.find(" ");
       string region_name = line.substr(0,curr).c_str();
       curr=curr+1;
@@ -179,14 +181,16 @@ double VisitSolver::calculateExtern(double external, double total_cost){
 
 void VisitSolver::parseWaypointConnection(string waypoint_file){
   // let's enstablish a structure of the wayppoints file as follow: wp0[0,0,0,wp1,wp2,wp3,wp4,wp5,wp6] where then you have the connected waypoint to that one, fundamental all the waypoints must be connected to the same number of waypoints.
+  cout<<"waypoint"<<endl;
   int curr, next, end, flag;
   flag = 0;
   string line, wp;
   double pose1, pose2, pose3;
   vector<string> wp_connected;
-  ifstream parametersFile(waypoint_file);
+  ifstream parametersFile(waypoint_file.c_str());
   if (parametersFile.is_open()){
     while (getline(parametersFile,line)){
+      cout<<"waypoint_it"<<endl;
       wp_connected.clear(); //clear the vector at initialization, look here *** to understan
 
       curr=line.find("[");
@@ -204,8 +208,9 @@ void VisitSolver::parseWaypointConnection(string waypoint_file){
       next=line.find(",",curr);
 
       pose3 = (double)atof(line.substr(curr,next-curr).c_str());
-
+      cout<<"waypoint_it2"<<endl;
       while(flag == 0){
+        cout<<"waypoint_it3"<<endl;
         curr=next+1; 
         next=line.find(",",curr);
         end=line.find("]",curr);
@@ -226,12 +231,15 @@ void VisitSolver::parseWaypointConnection(string waypoint_file){
 
 
 void VisitSolver::parseRegions(string region_file){
+  cout << "mammt" <<endl;
   // let's enstablish a structure of the regions file as follow: r0=wp0.
   int curr, next;
   string line;
   ifstream parametersFile(region_file);
+  cout << "mammt12" <<endl;
   if (parametersFile.is_open()){
     while (getline(parametersFile,line)){
+      cout << "mammt1" <<endl;
       curr=line.find("=");
       string region_name = line.substr(0,curr).c_str();
 
@@ -241,6 +249,7 @@ void VisitSolver::parseRegions(string region_file){
       string wp = line.substr(curr,next-curr).c_str();
 
       region[region_name] = wp;
+      cout << region.size() << endl;
     }
   }
 }
@@ -269,7 +278,7 @@ void VisitSolver::displayResult(string path_file){
 }
 
 void VisitSolver::pathfinder(string reg_from, string reg_to){
-
+  
   int i = 100000;
   int i_s;
   double f, g_s, h_s;
@@ -278,11 +287,11 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
   vector<string> successors; // contain all the successor waypoint (by name) of the current waypoint
   map<string, vector<double>> open, close; // both with the structure [wpn, {g(wp), h(wp), f(wp)=g(wp)+h(wp)}]
   map<string, string> parent; // parent of a given node
-
+  cout << "bob" << endl;
   // translate the regions in waypoints
   wp_init = region.at(reg_from); // initial waypoint
   wp_goal = region.at(reg_to); // goal waypoint
-
+  cout << "bob1" << endl;
   // use the A star algorithm to find a solution
   f = dist_euc(wp_init, wp_goal);
   open[wp_init]={0, f, f}; // put node_start (wp_init) in open with its heuristic (f)
@@ -312,6 +321,7 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
       for(i_s = 0; i_s <= successors.size(); ++i_s){ // for each successor
         wp_curr_data = open[wp_curr];
         g_s = wp_curr_data[0] + dist_euc(wp_curr, successors[i_s]); // set the successor_current_cost to g(wp_curr)+cost(wp_curr-wp_successor)
+        cout << "b" << endl;
         try{ // if the successor is already in the open list
           wp_succ_data = open.at(successors[i_s]);
           if(wp_succ_data[0] <= g_s){
@@ -319,6 +329,7 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
           }
         }
         catch(const std::out_of_range& oor){ // if the successor is not already in the open list
+          cout << "c" <<endl;
           try{ // if the successor node is already in the close list and it's not in the open list
             wp_succ_data = close.at(successors[i_s]);
             if(wp_succ_data[0] <= g_s){
@@ -330,6 +341,7 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
             }
           }
           catch(const std::out_of_range& oor){ // if the successor is not already neither in the open list nor in the close list
+            cout << "d" <<endl;
             h_s = dist_euc(successors[i_s], wp_goal); // heuristic of the successor to the goal
             wp_succ_data = {0, h_s, h_s};
             open[successors[i_s]] = wp_succ_data; // add the successor in the open list
@@ -342,6 +354,7 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
         parent.erase(successors[i_s]); // clear the parents of the successor
         parent[successors[i_s]] = wp_curr; // set the parent of the node successor to node current
         done:
+        continue;
       }
       close[wp_curr] = wp_curr_data; // add current node to the close list
       open.erase(wp_curr);// remove the current node from the open list
