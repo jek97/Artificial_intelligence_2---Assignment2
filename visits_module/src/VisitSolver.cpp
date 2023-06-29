@@ -76,7 +76,7 @@ void VisitSolver::loadSolver(string *parameters, int n){
 }
 
 map<string,double> VisitSolver::callExternalSolver(map<string,double> initialState,bool isHeuristic){
-  cout<<"b"<<endl;
+  
   map<string, double> toReturn;
   map<string, double>::iterator iSIt = initialState.begin();
   map<string, double>::iterator isEnd = initialState.end();
@@ -148,7 +148,7 @@ list<string> VisitSolver::getDependencies(){
 
 
 void VisitSolver::parseParameters(string parameters){
-  cout<<"c"<<endl;
+  
   int curr, next;
   string line;
   ifstream parametersFile(parameters.c_str());
@@ -270,50 +270,49 @@ double VisitSolver::dist_euc(string wp_from, string wp_to){
   double dist;
   vector<double> from;
   vector<double> to;
-  cout<<"dist1"<<endl;
   from = waypoint.at(wp_from);
-  cout<<"dist2"<<endl;
   to = waypoint.at(wp_to);
-  cout<<"dist3"<<endl;
   dist = sqrt(pow((from[0] - to[0]), 2) + pow((from[1] - to[1]), 2));
   return dist;
 }
 
 
 void VisitSolver::displayResult(string path_file){
-  int i;
   ofstream output;
   output.open(path_file, std::ios_base::app);
-  for(i = 0; i <= sizeof(path); ++i){
-    output << i << ". " << path[i] << endl; // write on the file
-    cout << i << ". " << path[i] << endl; // write on the terminal
+  for(auto i : path){
+    output << i << endl; // write on the file
+    cout << i << endl; // write on the terminal
   }
 }
 
 void VisitSolver::pathfinder(string reg_from, string reg_to){
   
-  int i = 100000;
-  double f, g_s, h_s;
+  int bobby = 0;
+  double f, g_s, h_s, i;
   string wp_init, wp_curr, wp_goal, node;
   vector<double> wp_curr_data, wp_succ_data;
   vector<string> successors; // contain all the successor waypoint (by name) of the current waypoint
   map<string, vector<double>> open, close; // both with the structure [wpn, {g(wp), h(wp), f(wp)=g(wp)+h(wp)}]
   map<string, string> parent; // parent of a given node
-  cout << "bob" << endl;
+  
   // translate the regions in waypoints
   wp_init = region.at(reg_from); // initial waypoint
   wp_goal = region.at(reg_to); // goal waypoint
-  cout << "bob1" << endl;
+  
   // use the A star algorithm to find a solution
+  open.clear();
   f = dist_euc(wp_init, wp_goal);
   open[wp_init]={0, f, f}; // put node_start (wp_init) in open with its heuristic (f)
   while(!open.empty()){ // while open is not empty
+    i = 1000.0;
     for(auto i_wp = open.begin(); i_wp != open.end(); ++i_wp){ // from the open list take the node node_curr (wp_curr) with the lowest heuristic (f)
       if((i_wp->second[2]) <= i){ // even the < would be sufficient and if two valeus are equals would keep the oldest, with the <= i will keep the newest
         i = i_wp->second[2];
         wp_curr = i_wp->first;
       }
     }
+    
     if(wp_curr == wp_goal){ // if node_current (wp_curr) = node_goal (wp_goal) we have finished
       cout << "path found" << endl;
       // recovering the path and its cost
@@ -326,19 +325,17 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
         cost = cost + dist_euc(node, parent[node]); // add the step cost
         node = parent[node]; // set the new node as the parent of the actual one for the next iteration
       }
-      displayResult("visits_domain/path.txt"); // write the result both on the terminal and on the text file
+      displayResult("./path.txt"); // write the result both on the terminal and on the text file
+      return;
     }
     else{ // otherwise generate all the successors of the current node
-      successors = connection[wp_curr]; // generate the successors nodes, that are all the one connected without the one where we come from                                                                                         // not sure, to check 
+      successors = connection[wp_curr]; // generate the successors nodes, that are all the one connected without the one where we come from                                                                                       
+      
       for(auto i_s : successors){ // for each successor
-        cout << "b1" << endl;
-        wp_curr_data = open[wp_curr];
         
-        cout<<"curr"<<wp_curr <<endl;
-        cout<<"succ"<<i_s<<endl;
-        
+        wp_curr_data = open[wp_curr];        
         g_s = wp_curr_data[0] + dist_euc(wp_curr, i_s); // set the successor_current_cost to g(wp_curr)+cost(wp_curr-wp_successor)
-        cout << "b" << endl;
+        
         try{ // if the successor is already in the open list
           wp_succ_data = open.at(i_s);
           if(wp_succ_data[0] <= g_s){
@@ -346,7 +343,6 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
           }
         }
         catch(const std::out_of_range& oor){ // if the successor is not already in the open list
-          cout << "c" <<endl;
           try{ // if the successor node is already in the close list and it's not in the open list
             wp_succ_data = close.at(i_s);
             if(wp_succ_data[0] <= g_s){
@@ -358,15 +354,12 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
             }
           }
           catch(const std::out_of_range& oor){ // if the successor is not already neither in the open list nor in the close list
-            cout << "d" <<endl;
             h_s = dist_euc(i_s, wp_goal); // heuristic of the successor to the goal
             wp_succ_data = {0, h_s, h_s};
             open[i_s] = wp_succ_data; // add the successor in the open list
           }
         }
-        cout<<"e"<<endl;
-        wp_succ_data = open.at(i_s);     
-        cout<<"f"<<endl;                            
+        wp_succ_data = open.at(i_s);                            
         wp_succ_data[0] = g_s; // set the g(node successor)= g_s  
         wp_succ_data[2] = wp_succ_data[0] + wp_succ_data[1]; // evaluate f
         open[i_s] = wp_succ_data; // add the node successor to the open list
@@ -382,7 +375,6 @@ void VisitSolver::pathfinder(string reg_from, string reg_to){
   if (wp_curr != wp_goal){
     cout << "error, open is empty, not avaiable path" << endl;
   }
-  cout << "bob2" << endl;
 }
 
 void VisitSolver::parseLandmark(string landmark_file){
