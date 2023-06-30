@@ -283,6 +283,7 @@ void VisitSolver::displayResult(string path_file){
     output << i << endl; // write on the file
     cout << i << endl; // write on the terminal
   }
+  cout <<"cost partial path "<<cost<<endl;
 }
 
 void VisitSolver::pathfinder(string reg_from, string reg_to){

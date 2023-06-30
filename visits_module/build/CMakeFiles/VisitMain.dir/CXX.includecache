@@ -54,15 +54,3 @@ queue
 unordered_map
 -
 
-/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/main.cpp
-iostream
--
-VisitSolver.h
-/home/jek97/Desktop/university/artificial_intelligence_2/Artificial_intelligence_2---Assignment2/visits_module/src/VisitSolver.h
-fstream
--
-list
--
-bits/stdc++.h
--
-
