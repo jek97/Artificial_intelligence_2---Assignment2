@@ -13,8 +13,8 @@
  
 )
 (:goal 
-     (and (visited r1)  (visited r2)
-          (robot_in R2D2 r5) )
+     (and (and (visited r1)  (visited r2))
+          (robot_in R2D2 r5))
 )
 (:metric minimize (act-cost) )
 )

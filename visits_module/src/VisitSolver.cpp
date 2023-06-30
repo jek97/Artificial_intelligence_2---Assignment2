@@ -152,10 +152,9 @@ void VisitSolver::parseParameters(string parameters){
   int curr, next;
   string line;
   ifstream parametersFile(parameters.c_str());
-  cout<< "param" <<endl;
   if (parametersFile.is_open()){
     while (getline(parametersFile,line)){
-      cout<< "param_it" <<endl;
+      
       curr=line.find(" ");
       string region_name = line.substr(0,curr).c_str();
       curr=curr+1;
@@ -288,7 +287,6 @@ void VisitSolver::displayResult(string path_file){
 
 void VisitSolver::pathfinder(string reg_from, string reg_to){
   
-  int bobby = 0;
   double f, g_s, h_s, i;
   string wp_init, wp_curr, wp_goal, node;
   vector<double> wp_curr_data, wp_succ_data;

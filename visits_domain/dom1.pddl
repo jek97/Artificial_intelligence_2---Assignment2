@@ -1,6 +1,6 @@
 (define (domain localization)
 
-(:requirements :typing :durative-actions :numeric-fluents :negative-preconditions :action-costs :conditional-effects :equality :fluents )
+(:requirements :typing :durative-actions :numeric-fluents :negative-preconditions :action-costs :conditional-effects :equality :fluents :disjunctive-preconditions)
 
 
 (:types 	robot region 
