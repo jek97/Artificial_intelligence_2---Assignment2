@@ -9,11 +9,16 @@
 
     (= (act-cost) 0)
     (= (dummy) 0)
+    (= (on_robot R2D2) 0)
+    (= (assignment_at r1) 1)
+    (= (assignment_at r2) 1)
+    (= (assignment_at r3) 1)
+    (= (assignment_at r4) 1)
 
  
 )
 (:goal 
-     (and (and (visited r1)  (visited r2))
+     (and (= (on_robot R2D2) 2)
           (robot_in R2D2 r5))
 )
 (:metric minimize (act-cost) )
